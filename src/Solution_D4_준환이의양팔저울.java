@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class Solution_D4_준환이의양팔저울 {
 	static int N, weight[], perm[], cnt;
 	static boolean used[];

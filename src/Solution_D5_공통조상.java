@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class Solution_D5_공통조상 {
 	static Node[] tree;
 	static int commonAncestor;

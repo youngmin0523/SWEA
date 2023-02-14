@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class Solution_D5_최적경로 {
 	static boolean[] visited;
 	static Node[] customer;

@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class Solution_D4_보급로 {
 	static int[][] move = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
 	static int road[][], cost[][], N, dx, dy;

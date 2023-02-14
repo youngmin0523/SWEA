@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 public class Solution_D3_1225_암호생성기 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;

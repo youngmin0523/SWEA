@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 public class Solution_D4_1218_괄호짝짓기 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringBuilder sb = new StringBuilder();
