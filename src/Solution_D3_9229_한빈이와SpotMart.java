@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 
+
 public class Solution_D3_9229_한빈이와SpotMart {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
