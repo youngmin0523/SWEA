@@ -10,7 +10,7 @@ public class Solution_D5_1247_최적경로 {
 			this.y = y;
 		}
 	}
-	static int N, res;
+	static int N, res, matrix[][];
 	static Place[] places;
 	static boolean[] isSelected;
 	
@@ -23,6 +23,7 @@ public class Solution_D5_1247_최적경로 {
 		for(int tc = 1; tc <= T; tc++) {
 			N = Integer.parseInt(br.readLine());
 			st = new StringTokenizer(br.readLine());
+			matrix = new int[N+2][N+2];
 			places = new Place[N+2];
 			res = Integer.MAX_VALUE;
 			isSelected = new boolean[N+1];
@@ -31,14 +32,15 @@ public class Solution_D5_1247_최적경로 {
 			for(int i = 1; i <= N; i++) {
 				places[i] = new Place(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 			}
-			dfs(0, places[0] ,0);
+			get_matrix();
+			dfs(0, 0 ,0);
 			sb.append("#").append(tc).append(" ").append(res).append("\n");
 		}
 		System.out.println(sb);
 	}
-	static void dfs(int cnt, Place current, int distance) {
+	static void dfs(int cnt, int current, int distance) {
 		if(cnt == N) {
-			distance += get_distance(current, places[N+1]);
+			distance += matrix[current][N+1];
 			if(distance < res) {
 				res = distance;
 			}
@@ -47,14 +49,25 @@ public class Solution_D5_1247_최적경로 {
 		for(int i = 1; i <= N; i++) {
 			if(isSelected[i]) continue;
 			isSelected[i] = true;
-			int tmp = distance + get_distance(current, places[i]);
+			int tmp = distance + matrix[current][i];
 			if(tmp < res) {
-				dfs(cnt+1, places[i], tmp);
+				dfs(cnt+1, i, tmp);
 			}
 			isSelected[i] = false;
 		}
 	}
 	static int get_distance(Place A, Place B) {
 		 return Math.abs(A.x - B.x) + Math.abs(A.y - B.y);
+	}
+	static void get_matrix() {
+		int tmp;
+		for(int i = 0; i < N+2; i++) {
+			for(int j = i; j < N+2; j++) {
+				if(i == j) continue;
+				tmp = get_distance(places[i], places[j]);
+				matrix[i][j] = tmp;
+				matrix[j][i] = tmp;
+			}
+		}
 	}
 }
