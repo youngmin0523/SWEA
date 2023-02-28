@@ -21,15 +21,10 @@ public class Solution_D4_7465_창용마을무리의개수 {
 				union(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 			}
 			groups = new HashSet<>();
-			int group;
 			for(int i = 1; i <= N; i++) {
-				group = find(i);
-				if(!groups.contains(group)) {
-					groups.add(group);
-					res++;
-				}
+				groups.add(find(i));
 			}
-			sb.append("#").append(tc).append(" ").append(res).append("\n");
+			sb.append("#").append(tc).append(" ").append(groups.size()).append("\n");
 		}
 		System.out.println(sb.toString());
 	}
