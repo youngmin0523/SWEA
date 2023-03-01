@@ -3,79 +3,85 @@ import java.util.*;
 
 public class Solution_D4_3124_최소스패닝트리_크루스칼 {
 	static class Edge implements Comparable<Edge>{
-		int A, B, C;
+		int from, to, weight;
 
-		public Edge(int a, int b, int c) {
-			super();
-			A = a;
-			B = b;
-			C = c;
+		public Edge(int from, int to, int weight) {
+			this.from = from;
+			this.to = to;
+			this.weight = weight;
 		}
 		@Override
 		public int compareTo(Edge o) {
-			return Integer.compare(this.C, o.C);
+			return this.weight-o.weight;
 		}
 	}
-	
-	static List<Edge> edges;
-//	static Queue<Edge> edges;
-	static int V, E, from, to, weight;
-	static int[] unionSet;
+	static List<Edge> edgeList;
+	static int V, E;
+	static int[] parents, rank;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
+		edgeList = new ArrayList<>();
 		
 		for(int tc = 1; tc <= T; tc++) {
 			st = new StringTokenizer(br.readLine());
 			V = Integer.parseInt(st.nextToken());
 			E = Integer.parseInt(st.nextToken());
-			edges = new ArrayList<>();
-//			edges = new PriorityQueue<>();
-			
 			for(int i = 0; i < E; i++) {
 				st = new StringTokenizer(br.readLine());
-				from = Integer.parseInt(st.nextToken());
-				to = Integer.parseInt(st.nextToken());
-				weight = Integer.parseInt(st.nextToken());
-				edges.add(new Edge(from, to, weight));
+				edgeList.add(new Edge(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
 			}
-			Collections.sort(edges);
+			Collections.sort(edgeList);
+			makeSet();
 			
-			make();
-			Edge edge;
+			long result = 0;
 			int cnt = 0;
-			long res = 0;
-			for(int i = 0; i < E; i++) {
-//				edge = edges.poll();
-				edge = edges.get(i);
-				if(union(edge.A, edge.B)) {
+			for(int i = 0; i < edgeList.size(); i++) {
+				if(unionSet(edgeList.get(i).from, edgeList.get(i).to)) {
+					result += edgeList.get(i).weight;
 					cnt++;
-					res += edge.C;
 				}
-				if(cnt == V-1) break;
+				if(cnt == V-1) {
+					break;
+				}
 			}
-			sb.append("#").append(tc).append(" ").append(res).append("\n");
+			edgeList.clear();
+			sb.append("#").append(tc).append(" ").append(result).append("\n");
 		}
-		System.out.print(sb.toString());
+		System.out.println(sb.toString());
 	}
-	static void make() {
-		unionSet = new int[V+1];
-		for(int i = 1; i < V+1; i++) {
-			unionSet[i] = i;
+	static void makeSet() {
+		parents = new int[V+1];
+		rank = new int[V+1];
+		for(int i = 1; i <= V; i++) {
+			parents[i] = i;
 		}
 	}
-	static int find(int a) {
-		if(unionSet[a] == a) return a;
-		return unionSet[a] = find(unionSet[a]);
+	static int findSet(int a) {
+		if(parents[a] == a) {
+			return a;
+		}
+		return parents[a] = findSet(parents[a]);
 	}
-	static boolean union(int a, int b) {
-		int rootA = find(a);
-		int rootB = find(b);
-		if(rootA == rootB) return false;
-		unionSet[rootB] = rootA;
+	static boolean unionSet(int a, int b) {
+		int rootA = findSet(a);
+		int rootB = findSet(b);
+		if(rootA == rootB) {
+			return false;
+		}
+		if(rank[rootA] > rank[rootB]) {
+			parents[rootB] = rootA;
+		}
+		else if(rank[rootA] < rank[rootB]) {
+			parents[rootA] = rootB;
+		}
+		else {
+			parents[rootB] = rootA;
+			rank[rootA]++;
+		}
 		return true;
 	}
 }
