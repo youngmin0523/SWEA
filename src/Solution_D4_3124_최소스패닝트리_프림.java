@@ -9,7 +9,6 @@ public class Solution_D4_3124_최소스패닝트리_프림 {
 			this.no = no;
 			this.weiht = weiht;
 		}
-
 		@Override
 		public int compareTo(Node o) {
 			return this.weiht-o.weiht;
