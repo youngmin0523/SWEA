@@ -2,18 +2,23 @@ import java.io.*;
 import java.util.*;
 
 public class Solution_D4_3124_최소스패닝트리_프림 {
-	static class Node {
-		int vertex, weight;
+	static class Node implements Comparable<Node> {
+		int no, weiht;
 
-		public Node(int vertex, int weight) {
-			super();
-			this.vertex = vertex;
-			this.weight = weight;
+		public Node(int no, int weiht) {
+			this.no = no;
+			this.weiht = weiht;
 		}
+
+		@Override
+		public int compareTo(Node o) {
+			return this.weiht-o.weiht;
+		}
+		
 	}
 	
-	static ArrayList<Node> adjList[];
-	static int V, E, from, to, weight;
+	static int V,E, from, to, weight;
+	static List<Node> adjList[];
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,11 +43,32 @@ public class Solution_D4_3124_최소스패닝트리_프림 {
 				adjList[from].add(new Node(to, weight));
 				adjList[to].add(new Node(from, weight));
 			}
-			long res = 0;
-			int cnt = 0;
 			
-			sb.append("#").append(tc).append(" ").append(res).append("\n");
+			sb.append("#").append(tc).append(" ").append(prim()).append("\n");
 		}
 		System.out.print(sb.toString());
+	}
+	static long prim() {
+		boolean[] visited = new boolean[V+1];
+		Queue<Node> pq = new PriorityQueue<>();
+		pq.offer(new Node(1, 0));
+		
+		long res = 0;
+		int cnt = 0;
+		Node current = null;
+		while(!pq.isEmpty()) {
+			current = pq.poll();
+			if(visited[current.no]) continue;
+			visited[current.no] = true;
+			res += current.weiht;
+			if(++cnt == V) break;
+			
+			for(Node node : adjList[current.no]) {
+				if(!visited[node.no]) {
+					pq.offer(node);
+				}
+			}
+		}
+		return res;
 	}
 }
